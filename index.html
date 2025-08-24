@@ -36,15 +36,11 @@
     .title h1{font-size:clamp(18px,4vw,24px); margin:0}
     .tag{font-size:12px; padding:.25rem .5rem; border-radius:999px; background:#ffffff14; color:var(--muted); border:1px solid #ffffff1a}
 
-    /* Sections */
     section{display:none}
     section.active{display:block}
 
-    /* Start Screen */
-    .hero{display:grid; gap:clamp(16px,3vw,24px); padding:clamp(16px, 4vw, 32px)}
-    .hero h2{margin:0; font-size:clamp(22px,6vw,36px); line-height:1.1}
-    .hero p{margin:0; color:var(--muted)}
-    .cta{display:flex; flex-wrap:wrap; gap:12px; align-items:center}
+    .hero{display:grid; gap:clamp(16px,3vw,24px); padding:clamp(16px, 4vw, 32px); text-align:center}
+    .cta{display:flex; justify-content:center; flex-wrap:wrap; gap:12px; align-items:center}
     .btn{
       --pad: clamp(12px, 3.2vw, 16px);
       padding:var(--pad) clamp(18px, 4.8vw, 24px); border-radius:14px; border:1px solid #ffffff1a; 
@@ -54,39 +50,23 @@
     .btn:hover{transform:translateY(-1px); filter:saturate(1.1)}
     .btn:active{transform:translateY(0)}
     .btn.secondary{background:linear-gradient(180deg, #7cf7ff, #65d9e0); box-shadow:0 10px 24px #7cf7ff2e}
+    .btn[disabled]{opacity:.6; filter:grayscale(0.4); cursor:not-allowed}
 
-    .grid{display:grid; gap:clamp(12px,2.4vw,18px); grid-template-columns:1fr;}
-    @media (min-width: 880px){
-      .grid{grid-template-columns:1.2fr .8fr}
-    }
-
-    .panel{background:#0e1022aa; border:1px solid #2a2e57; border-radius:18px; padding:clamp(14px, 3vw, 22px)}
-
-    .chips{display:flex; gap:8px; flex-wrap:wrap}
-    .chip{padding:.4rem .7rem; border-radius:999px; background:#ffffff0f; border:1px solid #ffffff1a; color:var(--muted); font-size:.85rem}
-
-    /* Game Area */
     .game-wrap{position:relative; aspect-ratio:9/16; width:min(100%, 480px); margin-inline:auto; border-radius:22px; overflow:hidden; border:1px solid #2a2e57; background:linear-gradient(180deg,#0f1228,#060713)}
     canvas{display:block; width:100%; height:100%}
 
-    /* HUD */
     .hud{position:absolute; inset:0; pointer-events:none; padding:10px}
     .hud .top{display:flex; justify-content:space-between; align-items:center}
     .pill{pointer-events:auto; background:#ffffff12; border:1px solid #ffffff1f; color:var(--text); padding:.45rem .7rem; border-radius:999px; font-size:.9rem}
 
-    /* Controls */
     .controls{position:absolute; inset:auto 0 10px 0; display:flex; justify-content:space-between; align-items:flex-end; gap:10px; padding:0 10px; pointer-events:none}
     .pad{pointer-events:auto; width:28%; max-width:200px; aspect-ratio:1; border-radius:18px; background:#ffffff0f; border:1px solid #ffffff1a; display:grid; place-items:center; user-select:none}
     .pad:active{background:#ffffff1c}
     .jump{width:30%; max-width:220px; aspect-ratio:3/2; border-radius:18px; display:grid; place-items:center; background:linear-gradient(180deg,#7cf7ff33,#7cf7ff18); border:1px dashed #7cf7ff66}
 
-    .pad span, .jump span{opacity:.9}
-
-    /* Prize Screen */
     .prize{display:grid; gap:16px; padding:clamp(16px, 4vw, 32px); text-align:center}
     .confetti{position:absolute; inset:0; pointer-events:none}
 
-    /* Footer */
     footer{padding:14px 18px; color:#aab; font-size:.85rem; text-align:center; border-top:1px solid #2a2e57; background:linear-gradient(180deg,#0e1023,#0b0d1b)}
     a{color:#a7e9ff; text-decoration:none}
   </style>
@@ -102,390 +82,399 @@
         <div class="tag" id="ageTag">20th</div>
       </header>
 
-      <!-- START SCREEN -->
+      <!-- START -->
       <section id="start" class="hero active">
-        <div class="grid">
-          <div class="panel" style="display:grid; gap:12px">
-            <h2 id="heroTitle">Happy 20th Birthday, Sayang! 🎉</h2>
-            <p id="heroDesc">Ada game kecil spesial untukmu. Kumpulkan <b id="targetHeartsText">15</b> hati sambil menghindari bom. Jika berhasil, hadiah rahasia akan terbuka! 💌</p>
-            <div class="chips">
-              <span class="chip">Mobile-first</span>
-              <span class="chip">Sentuh & Geser</span>
-              <span class="chip">Tanpa internet</span>
-              <span class="chip">Unlock Surprise</span>
-            </div>
-            <div class="cta">
-              <button class="btn" id="startBtn">Mulai Game</button>
-              <button class="btn secondary" id="howBtn">Cara Main</button>
-            </div>
-          </div>
-          <div class="panel">
-            <div class="game-wrap" aria-label="preview">
-              <canvas id="previewCanvas"></canvas>
-            </div>
-          </div>
+        <div class="cta">
+          <button class="btn" id="startBtn">Mulai Game</button>
+          <button class="btn secondary" id="howBtn">Cara Main</button>
         </div>
       </section>
 
-      <!-- GAME SCREEN -->
+      <!-- GAME -->
       <section id="game" style="padding:12px">
         <div class="game-wrap" id="gameWrap">
-          <canvas id="gameCanvas" aria-label="HeartCatch game"></canvas>
-
-          <!-- HUD -->
+          <canvas id="gameCanvas"></canvas>
           <div class="hud">
             <div class="top">
               <div class="pill" id="scoreHUD">❤️ 0</div>
               <div class="pill" id="livesHUD">💛 3</div>
-              <button class="pill" id="pauseBtn" style="cursor:pointer">⏸️ Jeda</button>
+              <button class="pill" id="pauseBtn">⏸️ Jeda</button>
             </div>
           </div>
-
-          <!-- Controls -->
           <div class="controls">
             <div class="pad" id="leftPad"><span>⟵</span></div>
             <div class="jump" id="jumpPad"><span>Lompat ⤴</span></div>
             <div class="pad" id="rightPad"><span>⟶</span></div>
           </div>
         </div>
-        <div style="display:flex; justify-content:center; gap:10px; margin-top:10px">
+        <div style="text-align:center; margin-top:10px">
           <button class="btn secondary" id="restartBtn" style="display:none">Ulangi</button>
           <button class="btn" id="quitBtn">Keluar</button>
         </div>
       </section>
 
-      <!-- PRIZE SCREEN -->
+      <!-- PRIZE -->
       <section id="prize" class="prize">
-        <div style="position:relative">
-          <canvas id="confettiCanvas" class="confetti"></canvas>
-          <h2 id="prizeTitle">🎁 Hadiah untukmu, <span id="herNameInline">Sayang</span>!</h2>
-          <p id="prizeLead">Kamu berhasil! Berikut pesan spesial dariku 💖</p>
-        </div>
-        <div class="panel" style="display:grid; gap:8px">
-          <h3 id="loveHeader" style="margin:0">Untukmu, my love</h3>
-          <p id="loveLetter" style="margin:0; color:var(--muted)"></p>
-        </div>
-        <div style="display:flex; justify-content:center; gap:12px; flex-wrap:wrap">
+        <canvas id="confettiCanvas" class="confetti"></canvas>
+        <h2 id="prizeTitle">🎁 Hadiah untukmu!</h2>
+        <p id="loveLetter"></p>
+        <div>
           <button class="btn" id="playAgainBtn">Main Lagi</button>
-          <a class="btn secondary" id="shareBtn" href="#" download>Download Kartu Ucapan</a>
+          <a class="btn secondary" id="shareBtn" href="#" download disabled>Download Kartu</a>
         </div>
       </section>
 
       <footer>
-        Dibuat dengan 💗 untuk <span id="herNameFooter">pacarku</span>. Sentuh kiri/kanan untuk bergerak, tap tombol <em>Lompat</em> untuk menghindar. Tetap di dalam layar ✔️
+        Dibuat dengan 💗. Sentuh kiri/kanan untuk bergerak, tombol Lompat untuk menghindar.
       </footer>
     </div>
   </div>
 
   <script>
     // ========================
-    // 1) KONFIGURASI CEPAT
+    // 1) KONFIG
     // ========================
-    const CONFIG = {
-      herName: "Sayang",
-      ageText: "20th",
-      targetHearts: 15,
-      lives: 3,
-      loveHeader: "Untukmu yang paling kucinta",
-      loveLetter: `Selamat ulang tahun yang ke-20! Terima kasih sudah hadir dan mengisi hariku. 
-Kamu itu rumah, tawa, dan semangatku. Semoga setiap langkahmu selalu dipenuhi cinta dan damai.
-Aku sayang kamu—hari ini, esok, dan seterusnya. 💞`,
+    const CONFIG={
+      herName:"Sayang",
+      ageText:"20th",
+      targetHearts:15,
+      lives:3,
+      loveLetter:"Selamat ulang tahun! Aku sayang kamu 💖"
     };
-
-    // inject config to UI
-    document.getElementById('ageTag').textContent = CONFIG.ageText;
-    document.getElementById('heroTitle').textContent = `Happy ${CONFIG.ageText} Birthday, ${CONFIG.herName}! 🎉`;
-    document.getElementById('herNameInline').textContent = CONFIG.herName;
-    document.getElementById('herNameFooter').textContent = CONFIG.herName;
-    document.getElementById('targetHeartsText').textContent = CONFIG.targetHearts;
-    document.getElementById('loveHeader').textContent = CONFIG.loveHeader;
-    document.getElementById('loveLetter').textContent = CONFIG.loveLetter;
+    // kecilkan effort kustomisasi lagi: update label umur
+    const ageTag = document.getElementById('ageTag'); if (ageTag) ageTag.textContent = CONFIG.ageText;
 
     // ========================
-    // 2) UTIL: NAVIGASI SCREEN
+    // 2) NAV SCREEN
     // ========================
-    const screens = { start: document.getElementById('start'), game: document.getElementById('game'), prize: document.getElementById('prize') };
-    function show(id){ Object.values(screens).forEach(s=>s.classList.remove('active')); screens[id].classList.add('active'); }
+    const screens={start:document.getElementById("start"),game:document.getElementById("game"),prize:document.getElementById("prize")};
+    function show(id){Object.values(screens).forEach(s=>s.classList.remove("active"));screens[id].classList.add("active")}
 
     // ========================
-    // 3) PREVIEW KANVAS
+    // 3) STATE & GAME DATA
     // ========================
-    ;(function preview(){
-      const c = document.getElementById('previewCanvas');
-      const dpr = Math.max(1, Math.min(2, window.devicePixelRatio || 1));
-      const rect = c.getBoundingClientRect();
-      c.width = rect.width * dpr; c.height = rect.height * dpr;
-      const ctx = c.getContext('2d'); ctx.scale(dpr, dpr);
-      const w = rect.width, h = rect.height;
-      const grad = ctx.createLinearGradient(0,0,0,h); grad.addColorStop(0,'#1a1f3a'); grad.addColorStop(1,'#090b16');
-      ctx.fillStyle = grad; ctx.fillRect(0,0,w,h);
-      // floating hearts
-      const hearts = Array.from({length:20}, (_,i)=>({ x: Math.random()*w, y: Math.random()*h, r: 6+Math.random()*10, s: .5+Math.random(), o: .3+.5*Math.random() }));
-      function drawHeart(x,y,r,fill){ ctx.save(); ctx.translate(x,y); ctx.rotate(-Math.PI/4); ctx.fillStyle = fill; ctx.beginPath(); ctx.moveTo(0,0); ctx.bezierCurveTo(0,-r, -r,-r, -r,0); ctx.bezierCurveTo(-r,r, 0,r*1.4, 0,r*1.8); ctx.bezierCurveTo(0,r*1.4, r,r, r,0); ctx.bezierCurveTo(r,-r, 0,-r, 0,0); ctx.fill(); ctx.restore(); }
-      let t = 0; (function loop(){ t+=.016; ctx.fillStyle = '#ffffff08'; ctx.fillRect(0,0,w,h);
-        hearts.forEach(hh=>{ hh.y += hh.s; if (hh.y>h+20) {hh.y=-20; hh.x=Math.random()*w;} drawHeart(hh.x, hh.y, hh.r, `rgba(255,110,199,${hh.o})`)});
-        requestAnimationFrame(loop);
-      })();
-    })();
-
-    // ========================
-    // 4) GAME LOGIC
-    // ========================
-    const game = {
-      running:false, paused:false, over:false, win:false,
+    const State={START:"start",PLAY:"play",WIN:"win",LOSE:"lose"};
+    const game={
+      state:State.START,
+      running:false, paused:false,
       score:0, lives:CONFIG.lives, target:CONFIG.targetHearts,
       w:0, h:0, dpr:1,
-      player:{ x:0, y:0, vx:0, vy:0, w:36, h:36, speed:0.4, maxSpeed:4.5, jump:-8, onGround:false },
+      player:{x:0,y:0,vx:0,vy:0,w:36,h:36,speed:0.4,maxSpeed:4.5,jump:-8,onGround:false},
       gravity:0.35,
       hearts:[], bombs:[], particles:[],
       lastSpawn:0,
+      damageLockUntil:0, // cooldown kena bom
+      flashUntil:0       // efek flash singkat
     };
 
-    const c = document.getElementById('gameCanvas');
-    const wrap = document.getElementById('gameWrap');
-    const ctx = c.getContext('2d');
+    // ========================
+    // 4) KANVAS & DRAW
+    // ========================
+    const wrap=document.getElementById("gameWrap");
+    const c=document.getElementById("gameCanvas");
+    const ctx=c.getContext("2d");
 
     function resizeCanvas(){
-      // Maintain crisp canvas with DPR, responsive to container
-      const rect = wrap.getBoundingClientRect();
+      // gunakan DPR untuk tajam di HP
+      const rect=wrap.getBoundingClientRect();
       const dpr = Math.max(1, Math.min(2, window.devicePixelRatio || 1));
-      c.width = rect.width * dpr; c.height = rect.height * dpr; c.style.width = '100%'; c.style.height = '100%';
-      ctx.setTransform(1,0,0,1,0,0); ctx.scale(dpr, dpr);
-      game.w = rect.width; game.h = rect.height; game.dpr = dpr;
-      // confine player to bottom area after resize
+      c.width = rect.width * dpr; c.height = rect.height * dpr;
+      c.style.width='100%'; c.style.height='100%';
+      ctx.setTransform(1,0,0,1,0,0); ctx.scale(dpr,dpr);
+      game.w=rect.width; game.h=rect.height; game.dpr=dpr;
+      // jaga pemain tetap di bawah layar
       game.player.y = Math.min(game.player.y || game.h-60, game.h-60);
     }
-    window.addEventListener('resize', resizeCanvas, {passive:true});
+    window.addEventListener("resize",resizeCanvas,{passive:true});
 
-    // Draw helpers
-    function clamp(v,min,max){ return Math.max(min, Math.min(max, v)); }
-    function rand(a,b){ return a + Math.random()*(b-a); }
+    function clamp(v,min,max){return Math.max(min,Math.min(max,v))}
+    function rand(a,b){return a+Math.random()*(b-a)}
 
-    function drawHeart(x,y,r,fill){ ctx.save(); ctx.translate(x,y); ctx.rotate(-Math.PI/4);
-      ctx.fillStyle = fill; ctx.beginPath(); ctx.moveTo(0,0); ctx.bezierCurveTo(0,-r, -r,-r, -r,0); ctx.bezierCurveTo(-r,r, 0,r*1.4, 0,r*1.8); ctx.bezierCurveTo(0,r*1.4, r,r, r,0); ctx.bezierCurveTo(r,-r, 0,-r, 0,0); ctx.fill(); ctx.restore(); }
-
-    function drawPlayer(){
-      const p = game.player; const x=p.x, y=p.y, w=p.w, h=p.h;
-      // body
-      ctx.fillStyle = '#ffd1e6'; ctx.fillRect(x, y, w, h);
-      // eyes
-      ctx.fillStyle = '#354'; ctx.fillRect(x+8,y+10,6,6); ctx.fillRect(x+w-14,y+10,6,6);
-      // heart on chest
-      drawHeart(x+w/2, y+h/2+4, 6, '#ff6ec7');
+    function drawHeart(x,y,r,fill="#ff6ec7"){
+      ctx.save();ctx.translate(x,y);ctx.rotate(-Math.PI/4);
+      ctx.fillStyle=fill;ctx.beginPath();ctx.moveTo(0,0);
+      ctx.bezierCurveTo(0,-r,-r,-r,-r,0);
+      ctx.bezierCurveTo(-r,r,0,r*1.4,0,r*1.8);
+      ctx.bezierCurveTo(0,r*1.4,r,r,r,0);
+      ctx.bezierCurveTo(r,-r,0,-r,0,0); ctx.fill(); ctx.restore();
     }
 
+    function drawPlayer(){
+      const p=game.player, x=p.x, y=p.y, w=p.w, h=p.h;
+      ctx.fillStyle='#ffd1e6'; ctx.fillRect(x,y,w,h);
+      ctx.fillStyle='#354'; ctx.fillRect(x+8,y+10,6,6); ctx.fillRect(x+w-14,y+10,6,6);
+      drawHeart(x+w/2, y+h/2+4, 6);
+    }
+
+    function drawBG(){
+      const g = ctx.createLinearGradient(0,0,0,game.h); g.addColorStop(0,'#0f132b'); g.addColorStop(1,'#090b16');
+      ctx.fillStyle=g; ctx.fillRect(0,0,game.w,game.h);
+      ctx.globalAlpha=.18; ctx.fillStyle='#fff';
+      for(let i=0;i<20;i++){ ctx.fillRect(((i*97)%game.w), (i*53)%game.h, 2,2); }
+      ctx.globalAlpha=1;
+    }
+
+    // ========================
+    // 5) GAME LOGIC
+    // ========================
     function spawn(){
-      const now = performance.now();
-      if (now - game.lastSpawn > 600){
+      const now=performance.now();
+      if(now - game.lastSpawn > 600){
         game.lastSpawn = now;
-        if (Math.random() < .7){
-          // heart
-          game.hearts.push({ x: rand(20, game.w-20), y: -20, r: rand(10,16), vy: rand(1.2, 2.6) });
-        } else {
-          // bomb
-          game.bombs.push({ x: rand(20, game.w-20), y: -20, r: rand(10,14), vy: rand(1.6, 3.1) });
+        if(Math.random() < .7){
+          game.hearts.push({x:rand(20,game.w-20), y:-20, r:rand(10,16), vy:rand(1.2,2.6)});
+        }else{
+          game.bombs.push({x:rand(20,game.w-20), y:-20, r:rand(10,14), vy:rand(1.6,3.1)});
         }
       }
     }
 
-    function drawGradientBG(){
-      const g = ctx.createLinearGradient(0,0,0,game.h); g.addColorStop(0,'#0f132b'); g.addColorStop(1,'#090b16');
-      ctx.fillStyle = g; ctx.fillRect(0,0,game.w,game.h);
-      // subtle stars
-      ctx.globalAlpha = .18; ctx.fillStyle='#fff';
-      for(let i=0;i<20;i++){ ctx.fillRect(((i*97)%game.w), (i*53)%game.h, 2,2); }
-      ctx.globalAlpha = 1;
+    function pop(x,y,type){
+      for(let i=0;i<14;i++){
+        game.particles.push({ x, y, vx: rand(-1.2,1.2), vy: rand(-1.6,.4), s: rand(2,4), a: rand(.4,.9), c: type==='heart'?'#ff6ec7':'#7cf7ff', life: .8 });
+      }
+    }
+    function boom(x,y){
+      for(let i=0;i<24;i++){
+        game.particles.push({ x, y, vx: rand(-2,2), vy: rand(-2,0.5), s: rand(2,5), a: rand(.5,1), c:'#ff5a6f', life: 1.1 });
+      }
+    }
+
+    function updateHUD(){
+      document.getElementById("scoreHUD").textContent=`❤️ ${game.score}/${game.target}`;
+      document.getElementById("livesHUD").textContent=`💛 ${game.lives}`;
     }
 
     function physics(dt){
+      const now = performance.now();
       const p = game.player;
-      // gravity + movement
+
+      // gravitasi & gerak
       p.vy += game.gravity; p.y += p.vy; p.x += p.vx;
-      // friction X
       p.vx *= .92; if (Math.abs(p.vx) < .02) p.vx = 0;
-      // floor
-      const floor = game.h - 24 - p.h; // padding 24
-      if (p.y >= floor){ p.y = floor; p.vy = 0; p.onGround = true; }
-      else p.onGround = false;
-      // left/right walls (keep fully on-screen)
+
+      // lantai
+      const floor = game.h - 24 - p.h;
+      if (p.y >= floor){ p.y = floor; p.vy = 0; p.onGround = true; } else p.onGround=false;
+
+      // dinding (pemain tetap di layar)
       p.x = clamp(p.x, 12, game.w - p.w - 12);
 
-      // hearts
-      for (let i=game.hearts.length-1;i>=0;i--){
-        const h = game.hearts[i]; h.y += h.vy; if (h.y > game.h+30) game.hearts.splice(i,1);
-        // collide with player
-        if (Math.abs((h.x)-(p.x+p.w/2)) < (p.w/2+ h.r*0.9) && Math.abs((h.y)-(p.y+p.h/2))<(p.h/2 + h.r*0.9)){
-          game.score++; pop(h.x,h.y,'heart'); game.hearts.splice(i,1);
-          updateHUD();
-          if (game.score >= game.target) return win();
+      // hati
+      for(let i=game.hearts.length-1;i>=0;i--){
+        const h=game.hearts[i];
+        h.y += h.vy;
+        if(h.y>game.h+30){ game.hearts.splice(i,1); continue; }
+        const hit = Math.abs(h.x-(p.x+p.w/2)) < (p.w/2 + h.r*.9) && Math.abs(h.y-(p.y+p.h/2)) < (p.h/2 + h.r*.9);
+        if(hit){
+          game.score++; pop(h.x,h.y,'heart'); game.hearts.splice(i,1); updateHUD();
+          if(game.score>=game.target) return win();
         }
       }
-      // bombs
-      for (let i=game.bombs.length-1;i>=0;i--){
-        const b = game.bombs[i]; b.y += b.vy; if (b.y > game.h+30) game.bombs.splice(i,1);
-        if (Math.abs((b.x)-(p.x+p.w/2)) < (p.w/2+ b.r*0.9) && Math.abs((b.y)-(p.y+p.h/2))<(p.h/2 + b.r*0.9)){
+
+      // bom (pakai cooldown damage)
+      for(let i=game.bombs.length-1;i>=0;i--){
+        const b=game.bombs[i];
+        b.y += b.vy;
+        if(b.y>game.h+30){ game.bombs.splice(i,1); continue; }
+        const hit = Math.abs(b.x-(p.x+p.w/2)) < (p.w/2 + b.r*.9) && Math.abs(b.y-(p.y+p.h/2)) < (p.h/2 + b.r*.9);
+        if(hit && now >= game.damageLockUntil){
           game.lives--; boom(b.x,b.y); game.bombs.splice(i,1); updateHUD();
-          if (game.lives<=0) return lose();
+          game.damageLockUntil = now + 900; // 0.9s kebal
+          game.flashUntil = now + 250;      // flash singkat
+          if(game.lives<=0) return lose();
         }
       }
-      // particles
+
+      // partikel
       for (let i=game.particles.length-1;i>=0;i--){
-        const pa = game.particles[i]; pa.x += pa.vx; pa.y += pa.vy; pa.vy += .05; pa.life -= dt;
-        if (pa.life<=0) game.particles.splice(i,1);
+        const pa=game.particles[i]; pa.x+=pa.vx; pa.y+=pa.vy; pa.vy+=.05; pa.life-=dt;
+        if(pa.life<=0) game.particles.splice(i,1);
       }
     }
 
     function render(){
-      drawGradientBG();
-      // ground line
-      ctx.strokeStyle = '#2a2e57'; ctx.lineWidth = 2; ctx.beginPath(); ctx.moveTo(12, game.h-24); ctx.lineTo(game.w-12, game.h-24); ctx.stroke();
+      drawBG();
+      // garis lantai
+      ctx.strokeStyle='#2a2e57'; ctx.lineWidth=2; ctx.beginPath(); ctx.moveTo(12, game.h-24); ctx.lineTo(game.w-12, game.h-24); ctx.stroke();
 
       // items
-      game.hearts.forEach(h=> drawHeart(h.x, h.y, h.r, '#ff6ec7'));
-      game.bombs.forEach(b=>{ ctx.beginPath(); ctx.fillStyle='#ff4757'; ctx.arc(b.x, b.y, b.r, 0, Math.PI*2); ctx.fill(); ctx.fillStyle='#fff'; ctx.fillRect(b.x-2, b.y-b.r-6, 4,6)});
+      game.hearts.forEach(h=> drawHeart(h.x,h.y,h.r));
+      game.bombs.forEach(b=>{ ctx.beginPath(); ctx.fillStyle='#ff4757'; ctx.arc(b.x,b.y,b.r,0,Math.PI*2); ctx.fill(); ctx.fillStyle='#fff'; ctx.fillRect(b.x-2,b.y-b.r-6,4,6); });
 
       // player
       drawPlayer();
 
-      // particles
-      game.particles.forEach(p=>{ ctx.globalAlpha = p.a; ctx.fillStyle = p.c; ctx.fillRect(p.x, p.y, p.s, p.s); ctx.globalAlpha=1; });
-    }
+      // partikel
+      game.particles.forEach(p=>{ ctx.globalAlpha=p.a; ctx.fillStyle=p.c; ctx.fillRect(p.x,p.y,p.s,p.s); ctx.globalAlpha=1; });
 
-    function pop(x,y,type){
-      for (let i=0;i<14;i++){
-        game.particles.push({ x, y, vx: rand(-1.2,1.2), vy: rand(-1.6,.4), s: rand(2,4), a: rand(.4,.9), c: type==='heart'?'#ff6ec7':'#7cf7ff', life: .8 });
+      // flash saat kena
+      if (performance.now() < game.flashUntil){
+        ctx.fillStyle='rgba(255,90,111,0.25)'; ctx.fillRect(0,0,game.w,game.h);
       }
     }
-    function boom(x,y){ for (let i=0;i<24;i++){ game.particles.push({ x, y, vx: rand(-2,2), vy: rand(-2,0.5), s: rand(2,5), a: rand(.5,1), c:'#ff5a6f', life: 1.1 }); } }
 
-    function updateHUD(){
-      document.getElementById('scoreHUD').textContent = `❤️ ${game.score}/${game.target}`;
-      document.getElementById('livesHUD').textContent = `💛 ${game.lives}`;
+    function win(){
+      if(game.state!==State.PLAY) return;
+      game.running=false; game.state=State.WIN;
+      openPrize();
+    }
+    function lose(){
+      if(game.state!==State.PLAY) return;
+      game.running=false; game.state=State.LOSE;
+      document.getElementById("restartBtn").style.display="inline-block";
     }
 
-    function win(){ game.running=false; game.win=true; openPrize(); }
-    function lose(){ game.running=false; game.over=true; document.getElementById('restartBtn').style.display='inline-flex'; }
-
     function loop(){
-      if (!game.running) return; if (game.paused){ requestAnimationFrame(loop); return; }
+      if(!game.running) return;
+      if(game.paused){ requestAnimationFrame(loop); return; }
       spawn(); physics(1/60); render(); requestAnimationFrame(loop);
     }
 
     // ========================
-    // 5) KONTROL (TOUCH + TOMBOL)
+    // 6) KONTROL
     // ========================
     const leftPad = document.getElementById('leftPad');
     const rightPad = document.getElementById('rightPad');
     const jumpPad = document.getElementById('jumpPad');
-
     let leftHeld=false, rightHeld=false;
+
     function setVX(){
-      const p = game.player; const dir = (rightHeld?1:0) - (leftHeld?1:0);
+      const p=game.player; const dir=(rightHeld?1:0) - (leftHeld?1:0);
       p.vx = clamp(p.vx + dir * p.speed, -p.maxSpeed, p.maxSpeed);
     }
-
-    function bindHold(el, on, off){
-      const active = new Set();
-      el.addEventListener('touchstart', e=>{ e.preventDefault(); active.add(e.changedTouches[0].identifier); on(); }, {passive:false});
-      el.addEventListener('touchend', e=>{ active.clear(); off(); }, {passive:true});
-      el.addEventListener('touchcancel', e=>{ active.clear(); off(); }, {passive:true});
-      el.addEventListener('mousedown', e=>{ e.preventDefault(); on(); });
-      window.addEventListener('mouseup', off);
+    function bindHold(el,on,off){
+      const active=new Set();
+      el.addEventListener('touchstart',e=>{e.preventDefault();active.add(e.changedTouches[0].identifier);on();},{passive:false});
+      el.addEventListener('touchend',()=>{active.clear();off();},{passive:true});
+      el.addEventListener('touchcancel',()=>{active.clear();off();},{passive:true});
+      el.addEventListener('mousedown',e=>{e.preventDefault();on();});
+      window.addEventListener('mouseup',off);
     }
+    bindHold(leftPad, ()=>{leftHeld=true; setVX();}, ()=>{leftHeld=false;});
+    bindHold(rightPad,()=>{rightHeld=true; setVX();}, ()=>{rightHeld=false;});
 
-    bindHold(leftPad, ()=>{ leftHeld=true; setVX(); }, ()=>{ leftHeld=false; });
-    bindHold(rightPad, ()=>{ rightHeld=true; setVX(); }, ()=>{ rightHeld=false; });
+    function jump(){ const p=game.player; if(p.onGround){ p.vy = (CONFIG.jumpStrength ?? p.jump); p.onGround=false; } }
+    jumpPad.addEventListener('click',jump);
+    jumpPad.addEventListener('touchstart',(e)=>{e.preventDefault();jump();},{passive:false});
 
-    function jump(){ const p=game.player; if (p.onGround){ p.vy = CONFIG.jumpStrength ?? p.jump; p.onGround=false; }}
-    jumpPad.addEventListener('click', jump);
-    jumpPad.addEventListener('touchstart', (e)=>{ e.preventDefault(); jump(); }, {passive:false});
-
-    // Swipe move (optional): drag horizontally anywhere on game area
+    // swipe/drag di area game
     let dragging=false, lastX=0;
-    wrap.addEventListener('touchstart', e=>{ dragging=true; lastX = e.touches[0].clientX; }, {passive:true});
-    wrap.addEventListener('touchmove', e=>{ if(!dragging) return; const dx=e.touches[0].clientX-lastX; lastX=e.touches[0].clientX; game.player.x = clamp(game.player.x+dx*0.9, 12, game.w - game.player.w - 12); }, {passive:true});
+    wrap.addEventListener('touchstart', e=>{ dragging=true; lastX=e.touches[0].clientX; }, {passive:true});
+    wrap.addEventListener('touchmove', e=>{
+      if(!dragging) return;
+      const dx=e.touches[0].clientX-lastX; lastX=e.touches[0].clientX;
+      game.player.x = clamp(game.player.x + dx*0.9, 12, game.w - game.player.w - 12);
+    }, {passive:true});
     wrap.addEventListener('touchend', ()=> dragging=false, {passive:true});
 
-    // Keyboard (for testing di desktop)
-    window.addEventListener('keydown', (e)=>{
-      if (e.key==='ArrowLeft' || e.key==='a'){ leftHeld=true; setVX(); }
-      if (e.key==='ArrowRight' || e.key==='d'){ rightHeld=true; setVX(); }
-      if (e.key===' ' || e.key==='ArrowUp' || e.key==='w'){ jump(); }
-      if (e.key==='Escape'){ togglePause(); }
+    // Keyboard (desktop test) — FIXED block
+    window.addEventListener('keydown',(e)=>{
+      if([' ','ArrowUp','ArrowDown','ArrowLeft','ArrowRight','w','a','s','d','Escape'].includes(e.key)) e.preventDefault();
+      if(e.key==='ArrowLeft'||e.key==='a'){ leftHeld=true; setVX(); }
+      if(e.key==='ArrowRight'||e.key==='d'){ rightHeld=true; setVX(); }
+      if(e.key===' '||e.key==='ArrowUp'||e.key==='w'){ jump(); }
+      if(e.key==='Escape'){ togglePause(); }
     });
-    window.addEventListener('keyup', (e)=>{
-      if (e.key==='ArrowLeft' || e.key==='a') leftHeld=false;
-      if (e.key==='ArrowRight' || e.key==='d') rightHeld=false;
+    window.addEventListener('keyup',(e)=>{
+      if(e.key==='ArrowLeft'||e.key==='a') leftHeld=false;
+      if(e.key==='ArrowRight'||e.key==='d') rightHeld=false;
     });
 
     // ========================
-    // 6) STATE CONTROL
+    // 7) TRANSISI & HADIAH
     // ========================
     function startGame(){
-      show('game');
-      resizeCanvas();
-      // reset state
-      game.running=true; game.paused=false; game.over=false; game.win=false; game.score=0; game.lives=CONFIG.lives; game.hearts=[]; game.bombs=[]; game.particles=[];
-      game.player.x = game.w/2 - game.player.w/2; game.player.y = game.h-60; game.player.vx=0; game.player.vy=0; updateHUD();
+      show('game'); resizeCanvas();
+      // reset
+      Object.assign(game,{ state:State.PLAY, running:true, paused:false, score:0, lives:CONFIG.lives, hearts:[], bombs:[], particles:[], damageLockUntil:0, flashUntil:0 });
+      game.player.x = game.w/2 - game.player.w/2; game.player.y = game.h-60; game.player.vx=0; game.player.vy=0;
+      updateHUD();
       document.getElementById('restartBtn').style.display='none';
+      // kunci tombol share sampai menang
+      const share=document.getElementById('shareBtn'); share.setAttribute('disabled','true'); share.style.pointerEvents='none';
       loop();
     }
     function openPrize(){
+      if(game.state!==State.WIN) return; // hanya saat benar-benar menang
       show('prize');
-      // Confetti animate
+      document.getElementById('loveLetter').textContent = CONFIG.loveLetter;
       runConfetti();
-      // Auto-create shareable card (PNG) for download
       createCardImage();
+      const share=document.getElementById('shareBtn'); share.removeAttribute('disabled'); share.style.pointerEvents='auto';
     }
-
     function togglePause(){ game.paused = !game.paused; document.getElementById('pauseBtn').textContent = game.paused? '▶️ Lanjut' : '⏸️ Jeda'; if (!game.paused) loop(); }
 
-    document.getElementById('startBtn').addEventListener('click', startGame);
-    document.getElementById('howBtn').addEventListener('click', ()=> alert('Cara main:\n• Kumpulkan hati sebanyak mungkin.\n• Hindari bom!\n• Sentuh kiri/kanan untuk bergerak, tekan tombol "Lompat" untuk menghindar.\n• Kumpulkan '+CONFIG.targetHearts+' hati untuk membuka hadiah.'));
-    document.getElementById('pauseBtn').addEventListener('click', togglePause);
-    document.getElementById('restartBtn').addEventListener('click', startGame);
-    document.getElementById('quitBtn').addEventListener('click', ()=> show('start'));
-    document.getElementById('playAgainBtn').addEventListener('click', startGame);
+    document.getElementById("startBtn").onclick=startGame;
+    document.getElementById("howBtn").onclick=()=>alert(`Cara main:
+• Kumpulkan hati (target ${CONFIG.targetHearts}).
+• Hindari bom.
+• Sentuh kiri/kanan untuk bergerak, tombol "Lompat" untuk melompat.`);
+    document.getElementById("quitBtn").onclick=()=>show("start");
+    document.getElementById("restartBtn").onclick=startGame;
+    document.getElementById("playAgainBtn").onclick=startGame;
+    document.getElementById("pauseBtn").onclick=togglePause;
 
-    // initialize
-    show('start');
-
-    // Ensure canvas size correct after first layout
-    setTimeout(resizeCanvas, 50);
+    // auto-pause saat tab tidak aktif / blur / rotasi
+    document.addEventListener('visibilitychange', ()=>{
+      if(document.hidden && game.state===State.PLAY){ game.paused=true; document.getElementById('pauseBtn').textContent='▶️ Lanjut'; }
+    });
+    window.addEventListener('blur', ()=>{
+      if (game.state===State.PLAY){ game.paused=true; document.getElementById('pauseBtn').textContent='▶️ Lanjut'; }
+    });
+    window.addEventListener('orientationchange', ()=>{
+      resizeCanvas();
+      if (game.state===State.PLAY){ game.paused=true; document.getElementById('pauseBtn').textContent='▶️ Lanjut'; }
+    });
 
     // ========================
-    // 7) CONFETTI & KARTU UCAPAN
+    // 8) CONFETTI & KARTU
     // ========================
     function runConfetti(){
-      const cf = document.getElementById('confettiCanvas');
-      const ctx2 = cf.getContext('2d');
-      function size(){ const rect = screens.prize.getBoundingClientRect(); cf.width = rect.width * 2; cf.height = rect.height * 2; cf.style.width='100%'; cf.style.height='100%'; ctx2.setTransform(1,0,0,1,0,0); ctx2.scale(2,2);} size();
-      const P = Array.from({length:120}, ()=>({ x: Math.random()*cf.clientWidth, y: Math.random()*-200, vy: 1+Math.random()*3, s: 3+Math.random()*4, r: Math.random()*6.28 }));
-      let running=true; function loop(){ if(!running) return; ctx2.clearRect(0,0,cf.clientWidth, cf.clientHeight); P.forEach(p=>{ p.y+=p.vy; p.r+=.03; if(p.y>cf.clientHeight+20){ p.y=-20; p.x=Math.random()*cf.clientWidth; } ctx2.save(); ctx2.translate(p.x,p.y); ctx2.rotate(p.r); ctx2.fillStyle = ['#ff6ec7','#7cf7ff','#ffd166','#21d07a'][p.s&3]; ctx2.fillRect(-p.s/2,-p.s/2,p.s,p.s); ctx2.restore(); }); requestAnimationFrame(loop);} loop();
+      const cf=document.getElementById('confettiCanvas');
+      const ctx2=cf.getContext('2d');
+      function size(){
+        const rect=screens.prize.getBoundingClientRect();
+        cf.width=rect.width*2; cf.height=rect.height*2; cf.style.width='100%'; cf.style.height='100%';
+        ctx2.setTransform(1,0,0,1,0,0); ctx2.scale(2,2);
+      }
+      size();
+      const P=Array.from({length:120},()=>({x:Math.random()*cf.clientWidth,y:Math.random()*-200,vy:1+Math.random()*3,s:3+Math.random()*4,r:Math.random()*6.28}));
+      (function loop(){
+        ctx2.clearRect(0,0,cf.clientWidth,cf.clientHeight);
+        P.forEach(p=>{
+          p.y+=p.vy; p.r+=.03;
+          if(p.y>cf.clientHeight+20){p.y=-20;p.x=Math.random()*cf.clientWidth;}
+          ctx2.save(); ctx2.translate(p.x,p.y); ctx2.rotate(p.r);
+          ctx2.fillStyle = ['#ff6ec7','#7cf7ff','#ffd166','#21d07a'][p.s&3];
+          ctx2.fillRect(-p.s/2,-p.s/2,p.s,p.s);
+          ctx2.restore();
+        });
+        requestAnimationFrame(loop);
+      })();
       window.addEventListener('resize', size, {passive:true});
     }
 
     function createCardImage(){
-      // Generate a simple share card as PNG for download
-      const w=900, h=1200; const cc = document.createElement('canvas'); cc.width=w; cc.height=h; const x = cc.getContext('2d');
-      const grd = x.createLinearGradient(0,0,0,h); grd.addColorStop(0,'#14183a'); grd.addColorStop(1,'#0b0d1b'); x.fillStyle=grd; x.fillRect(0,0,w,h);
+      const w=900, h=1200; const cc=document.createElement('canvas'); cc.width=w; cc.height=h; const x=cc.getContext('2d');
+      const grd=x.createLinearGradient(0,0,0,h); grd.addColorStop(0,'#14183a'); grd.addColorStop(1,'#0b0d1b'); x.fillStyle=grd; x.fillRect(0,0,w,h);
       x.fillStyle='#ff6ec7'; x.font='bold 56px Poppins, sans-serif'; x.fillText('Happy '+CONFIG.ageText+' Birthday!', 60, 140);
       x.fillStyle='#fff'; x.font='800 86px Poppins, sans-serif'; x.fillText(CONFIG.herName, 60, 240);
-      // heart rain
       for(let i=0;i<60;i++){ drawHeartOn(x, Math.random()*w, 300+Math.random()*(h-400), 10+Math.random()*16, 'rgba(255,110,199,0.6)'); }
-      // letter box
       roundRect(x, 60, 320, w-120, h-420, 26, '#1d203a');
       x.fillStyle='#c9cbe8'; x.font='400 28px Poppins, sans-serif'; wrapText(x, CONFIG.loveLetter, 90, 370, w-180, 40);
-      // signature
       x.fillStyle='#7cf7ff'; x.font='600 28px Poppins, sans-serif'; x.fillText('Dari yang paling sayang kamu 💖', 60, h-90);
-      const url = cc.toDataURL('image/png');
-      const link = document.getElementById('shareBtn'); link.href = url; link.setAttribute('download', `Happy-${CONFIG.ageText}-${CONFIG.herName}.png`);
+      const url=cc.toDataURL('image/png');
+      const link=document.getElementById('shareBtn'); link.href=url; link.setAttribute('download', `Happy-${CONFIG.ageText}-${CONFIG.herName}.png`);
 
-      function drawHeartOn(ctxX, xh,yh,r,fill){ ctxX.save(); ctxX.translate(xh,yh); ctxX.rotate(-Math.PI/4); ctxX.fillStyle = fill; ctxX.beginPath(); ctxX.moveTo(0,0); ctxX.bezierCurveTo(0,-r, -r,-r, -r,0); ctxX.bezierCurveTo(-r,r, 0,r*1.4, 0,r*1.8); ctxX.bezierCurveTo(0,r*1.4, r,r, r,0); ctxX.bezierCurveTo(r,-r, 0,-r, 0,0); ctxX.fill(); ctxX.restore(); }
-      function roundRect(ctxX, x,y,w,h,r, fill){ ctxX.beginPath(); ctxX.moveTo(x+r,y); ctxX.arcTo(x+w,y,x+w,y+h,r); ctxX.arcTo(x+w,y+h,x,y+h,r); ctxX.arcTo(x,y+h,x,y,r); ctxX.arcTo(x,y,x+w,y,r); ctxX.closePath(); ctxX.fillStyle=fill; ctxX.fill(); }
-      function wrapText(ctxX, text, x, y, maxWidth, lineHeight){ const words = text.split(/\s+/); let line=''; for(let n=0;n<words.length;n++){ const testLine = line + words[n] + ' '; const metrics = ctxX.measureText(testLine); if (metrics.width > maxWidth && n>0){ ctxX.fillText(line, x, y); line = words[n] + ' '; y += lineHeight; } else { line = testLine; } } ctxX.fillText(line, x, y); }
+      function drawHeartOn(ctxX,xh,yh,r,fill){ ctxX.save(); ctxX.translate(xh,yh); ctxX.rotate(-Math.PI/4); ctxX.fillStyle=fill; ctxX.beginPath(); ctxX.moveTo(0,0); ctxX.bezierCurveTo(0,-r,-r,-r,-r,0); ctxX.bezierCurveTo(-r,r,0,r*1.4,0,r*1.8); ctxX.bezierCurveTo(0,r*1.4,r,r,r,0); ctxX.bezierCurveTo(r,-r,0,-r,0,0); ctxX.fill(); ctxX.restore(); }
+      function roundRect(ctxX,x,y,w,h,r,fill){ ctxX.beginPath(); ctxX.moveTo(x+r,y); ctxX.arcTo(x+w,y,x+w,y+h,r); ctxX.arcTo(x+w,y+h,x,y+h,r); ctxX.arcTo(x,y+h,x,y,r); ctxX.arcTo(x,y,x+w,y,r); ctxX.closePath(); ctxX.fillStyle=fill; ctxX.fill(); }
+      function wrapText(ctxX,text,x,y,maxWidth,lineHeight){ const words=text.split(/\s+/); let line=''; for(let n=0;n<words.length;n++){ const test=line+words[n]+' '; if(ctxX.measureText(test).width>maxWidth && n>0){ ctxX.fillText(line,x,y); line=words[n]+' '; y+=lineHeight; } else { line=test; } } ctxX.fillText(line,x,y); }
     }
 
+    // init
+    show("start");
+    setTimeout(resizeCanvas,50);
   </script>
 </body>
 </html>
