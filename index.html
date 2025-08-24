@@ -140,12 +140,12 @@
 
       <!-- START -->
       <section id="start" class="hero active">
-        <h2>Game kecil, hadiah besar buat <span id="herNameInline">Sayang</span> 💝</h2>
+        <h2>Mini game, hadiah besar buat <span id="herNameInline">Ade Sayang</span> 💝</h2>
         <p>Kumpulkan hati, hindari bom. Selesaikan misi untuk membuka kartu hadiah spesial dan ucapan cinta.</p>
         <div class="cta">
           <button class="btn" id="startBtn">Mulai Game</button>
           <button class="btn secondary" id="howBtn">Cara Main</button>
-          <button class="btn ghost" id="toggleControlsBtn">Tampilkan/Sembunyikan Tombol</button>
+          <button class="btn ghost" id="toggleControlsBtn" style="display: none;">Tampilkan/Sembunyikan Tombol</button>
         </div>
       </section>
 
@@ -189,7 +189,7 @@
       </section>
 
       <footer>
-        Dibuat dengan 💗. Gesture aktif: geser untuk bergerak · tap cepat untuk lompat · Esc untuk jeda (desktop).
+        Dibuat dengan 💗. Dari cowok mu yang keren banget hehehe XD
       </footer>
     </div>
   </div>
@@ -203,7 +203,7 @@
       ageText:"20th",
       targetHearts:15,
       lives:3,
-      loveLetter:"Selamat ulang tahun ke-20! Terima kasih sudah jadi rumah paling nyaman untuk hatiku. Semoga setiap level hidupmu penuh kebahagiaan, dan aku akan selalu jadi pemain co-op di sisimu. 💖",
+      loveLetter:"Selamat ulang tahun ke-20 Ade syg! Thanks yahh sudah mau jadi penyemangat hari-hari abang wkwkwk. Sorry yahh Karna LDR jadi ngk bisa samperin sayang langsung. Abang doain Semoga tahun ini semua yang syg inginkan dan usahakan tercapai yahh. Nanti abang bantu temanin sayang di hari hari selanjutnya sampai ulang tahun selanjutnya juga hehehe. Love You yahh Sayang 💖. ",
       showOnscreenButtons:false // <<< set false untuk hide tombol kiri/kanan/lompat
     };
     const ageTag = document.getElementById('ageTag'); if (ageTag) ageTag.textContent = CONFIG.ageText;
@@ -433,17 +433,26 @@
     jumpPad?.addEventListener('touchstart',(e)=>{e.preventDefault();jump();},{passive:false});
 
     // Gesture: drag untuk gerak, tap cepat untuk lompat (invisible controls mode)
-    let dragging=false, lastX=0, tapTimer=0, moved=false;
+    let dragging=false, lastX=0, lastY=0, tapTimer=0, moved=false;
     wrap.addEventListener('touchstart', e=>{
-      dragging=true; moved=false; lastX=e.touches[0].clientX; tapTimer=performance.now();
+      dragging=true; moved=false; lastX=e.touches[0].clientX; lastY=e.touches[0].clientY; tapTimer=performance.now();
     }, {passive:true});
     wrap.addEventListener('touchmove', e=>{
       if(!dragging) return;
+      e.preventDefault(); // Mencegah scrolling vertikal
       const x=e.touches[0].clientX;
-      const dx=x-lastX; lastX=x;
-      if(Math.abs(dx)>2) moved=true;
-      game.player.x = clamp(game.player.x + dx*0.9, 12, game.w - game.player.w - 12);
-    }, {passive:true});
+      const y=e.touches[0].clientY;
+      const dx=x-lastX;
+      const dy=y-lastY;
+      
+      // Hanya gerakkan player jika pergerakan horizontal lebih dominan
+      if(Math.abs(dx) > Math.abs(dy) && Math.abs(dx) > 2) {
+        moved=true;
+        game.player.x = clamp(game.player.x + dx*0.9, 12, game.w - game.player.w - 12);
+      }
+      
+      lastX=x; lastY=y;
+    }, {passive:false});
     wrap.addEventListener('touchend', ()=>{
       if(!dragging) return;
       const dt = performance.now()-tapTimer;
@@ -556,7 +565,7 @@
       x.strokeStyle='#2a2e57'; x.lineWidth=2; x.stroke();
       x.fillStyle='#c9cbe8'; x.font='400 34px Poppins, sans-serif'; wrapText(x, CONFIG.loveLetter, 96, 380, w-192, 50);
       // sign
-      x.fillStyle='#7cf7ff'; x.font='700 32px Poppins, sans-serif'; x.fillText('Dari yang paling sayang kamu 💖', 70, h-110);
+      x.fillStyle='#7cf7ff'; x.font='700 32px Poppins, sans-serif'; x.fillText('Dari abang sayangg wkwkkwwk 💖', 70, h-110);
       // export
       const url=cc.toDataURL('image/png');
       const link=document.getElementById('shareBtn'); link.href=url; link.setAttribute('download', `Happy-${CONFIG.ageText}-${CONFIG.herName}.png`);
